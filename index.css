@@ -145,6 +145,7 @@ body {
     background-color: white;
     display: flex;
     flex-wrap: wrap;
+    min-width: 60%;
    
     /* max-height: 40px; */
     max-width: 70%;
