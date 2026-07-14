@@ -3,35 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <title>IKEBOT</title>
     <link rel="stylesheet" href="popup.css" />
-    <script src="popup.js" defer></script>
+    <script src="popup.js" type="module"></script>
   </head>
   <body>
-    <header>
-      <img src="../content/2.png" alt="IKEBOT" />
-      <div><strong>IKEBOT</strong><span><i></i> Ready to help</span></div>
-      <button id="reset" type="button" title="Start a new conversation" aria-label="Start a new conversation">↻</button>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <header class="app-header">
+      <img src="../content/2.png" alt="" />
+      <div class="identity"><strong>IKEBOT</strong><span><i></i> Offline workspace</span></div>
+      <div class="header-actions">
+        <button id="theme-button" type="button" title="Change theme" aria-label="Change colour theme">◐</button>
+        <button id="export-button" type="button" title="Export transcript" aria-label="Export transcript">⇩</button>
+        <button id="matter-button" type="button" title="Matter details" aria-label="Edit matter details">•••</button>
+      </div>
     </header>
-    <main id="messages" aria-live="polite">
-      <div class="message bot">
-        <span>IKEBOT</span>
-        <p>Good day. What can I help you work through?</p>
-      </div>
-      <div class="actions" id="actions">
-        <button type="button" data-prompt="Prepare a client intake checklist">Client intake checklist</button>
-        <button type="button" data-prompt="Help me plan Singapore legal research">Plan legal research</button>
-        <button type="button" data-prompt="Explain a clause in plain language">Explain a clause</button>
-        <button type="button" data-prompt="Help me check a legal deadline">Check a deadline</button>
-      </div>
+
+    <section class="matter-bar" aria-label="Current matter">
+      <span>Current matter</span>
+      <button id="matter-label" type="button">Untitled matter</button>
+      <span class="local-badge" title="Stored only in this browser">Local only</span>
+    </section>
+
+    <nav class="tabs" aria-label="IKEBOT sections">
+      <button id="tab-assistant" type="button" role="tab" aria-selected="true" aria-controls="panel-assistant" data-tab="assistant"><span>1</span> Assistant</button>
+      <button id="tab-tools" type="button" role="tab" aria-selected="false" aria-controls="panel-tools" data-tab="tools"><span>2</span> Tools</button>
+      <button id="tab-library" type="button" role="tab" aria-selected="false" aria-controls="panel-library" data-tab="library"><span>3</span> Library</button>
+    </nav>
+
+    <main id="workspace">
+      <section id="panel-assistant" class="panel assistant-panel" role="tabpanel" aria-labelledby="tab-assistant">
+        <div id="messages" class="messages" aria-live="polite" aria-label="Conversation"></div>
+        <div id="workflow-actions" class="workflow-actions" aria-label="Suggested workflows"></div>
+        <form id="chat-form" class="composer">
+          <label for="chat-input">Describe the task or type <code>/help</code></label>
+          <div>
+            <textarea id="chat-input" rows="1" maxlength="1200" placeholder="What do you need to structure?" autocomplete="off"></textarea>
+            <button type="submit" aria-label="Send message">↑</button>
+          </div>
+          <p id="privacy-hint" class="privacy-hint" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="panel-tools" class="panel tools-panel" role="tabpanel" aria-labelledby="tab-tools" hidden>
+        <div class="panel-heading"><p>Offline utilities</p><h1>Practical matter tools</h1></div>
+
+        <details open>
+          <summary>Planning-date calculator <span>Calendar helper</span></summary>
+          <form id="deadline-form" class="tool-form">
+            <label>Start date <input id="deadline-start" type="date" required /></label>
+            <label>Number of days <input id="deadline-days" type="number" min="-3650" max="3650" value="14" required /></label>
+            <label class="checkbox"><input id="deadline-weekdays" type="checkbox" /> Count weekdays only</label>
+            <button type="submit">Calculate planning date</button>
+            <output id="deadline-result">This is a planning aid, not a legal deadline calculator.</output>
+          </form>
+        </details>
+
+        <details>
+          <summary>Chronology sorter <span>Text and CSV</span></summary>
+          <div class="tool-form">
+            <label>One event per line <textarea id="chronology-input" rows="5" placeholder="2026-07-14 | Notice received | Client email"></textarea></label>
+            <div class="button-row"><button id="chronology-sort" type="button">Sort chronology</button><button id="chronology-export" class="secondary" type="button">Export CSV</button></div>
+            <output id="chronology-result">Format: YYYY-MM-DD | event | source</output>
+          </div>
+        </details>
+
+        <details>
+          <summary>Text inspector <span>Readability and references</span></summary>
+          <div class="tool-form">
+            <label>Text to inspect <textarea id="text-inspector-input" rows="5" placeholder="Paste draft text or submissions"></textarea></label>
+            <button id="text-inspector-run" type="button">Inspect text</button>
+            <output id="text-inspector-result">Counts words, long sentences, neutral citations and section references locally.</output>
+          </div>
+        </details>
+
+        <details>
+          <summary>Line comparison <span>Deterministic diff</span></summary>
+          <div class="tool-form two-column-tool">
+            <label>Earlier text <textarea id="diff-before" rows="4"></textarea></label>
+            <label>Later text <textarea id="diff-after" rows="4"></textarea></label>
+            <button id="diff-run" type="button">Compare lines</button>
+            <output id="diff-result">Added lines use + and removed lines use −.</output>
+          </div>
+        </details>
+
+        <details>
+          <summary>Privacy scan <span>Runs locally</span></summary>
+          <div class="tool-form">
+            <label>Text to scan <textarea id="privacy-input" rows="4" placeholder="Paste text to check for common identifiers"></textarea></label>
+            <div class="button-row"><button id="scan-button" type="button">Scan text</button><button id="redact-button" class="secondary" type="button">Redact matches</button></div>
+            <output id="privacy-result">Nothing leaves this browser.</output>
+          </div>
+        </details>
+
+        <details>
+          <summary>Review controls <span id="checklist-progress">0 of 5</span></summary>
+          <div id="privacy-checklist" class="checklist"></div>
+        </details>
+      </section>
+
+      <section id="panel-library" class="panel library-panel" role="tabpanel" aria-labelledby="tab-library" hidden>
+        <div class="panel-heading"><p>Research starting points</p><h1>Singapore legal library</h1></div>
+        <label class="search-box">Search sources and terms <input id="library-search" type="search" placeholder="Try “legislation” or “privilege”" /></label>
+        <div class="library-switch" role="group" aria-label="Library view">
+          <button type="button" class="active" data-library="sources">Sources</button>
+          <button type="button" data-library="glossary">Glossary</button>
+        </div>
+        <div id="library-results" class="library-results"></div>
+      </section>
     </main>
-    <form id="form">
-      <label for="input">Ask IKEBOT</label>
-      <div>
-        <input id="input" type="text" maxlength="280" placeholder="Ask a workflow question…" autocomplete="off" autofocus />
-        <button type="submit" aria-label="Send message">↑</button>
-      </div>
-    </form>
-    <footer>Prototype guidance only. Not legal advice. Verify all authorities and dates.</footer>
+
+    <footer class="app-footer">
+      <span>No network requests</span>
+      <button id="clear-button" type="button">Clear conversation</button>
+    </footer>
+
+    <dialog id="matter-dialog" aria-labelledby="matter-title">
+      <form id="matter-form" method="dialog">
+        <div class="dialog-heading"><div><p>Local workspace</p><h2 id="matter-title">Matter details</h2></div><button type="button" id="matter-close" aria-label="Close matter details">×</button></div>
+        <label>Matter name <input id="matter-name" maxlength="80" placeholder="e.g. Supply agreement review" /></label>
+        <label>Reference <input id="matter-reference" maxlength="40" placeholder="e.g. 2026-014" /></label>
+        <label>Client label <input id="matter-client" maxlength="80" placeholder="Use a non-sensitive label" /></label>
+        <label>Working notes <textarea id="matter-notes" maxlength="2000" rows="4" placeholder="Avoid unnecessary personal data"></textarea></label>
+        <p>Saved in local browser storage. IKEBOT does not transmit these details.</p>
+        <div class="button-row"><button id="matter-save" value="save">Save matter</button><button id="matter-delete" class="danger" type="button">Delete local matter</button></div>
+      </form>
+    </dialog>
+
+    <div id="ikebot-toast" class="toast" role="status" aria-live="polite" hidden></div>
   </body>
 </html>
