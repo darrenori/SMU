@@ -1,3 +1,5 @@
+import { stableUnique } from "./collections.js";
+
 const NEUTRAL_CITATION = /\[(\d{4})\]\s+SG(?:CA|HC|HC\(A\)|DC|MC|FC|SCT|IPOS|PDPC)\s+\d+/g;
 const SECTION_REFERENCE = /\b(?:s|ss|section|sections)\.?\s+\d+[A-Za-z]?(?:\([^)]+\))*/gi;
 
@@ -9,13 +11,7 @@ export function extractReferences(value = "") {
 }
 
 export function uniqueReferences(value = "") {
-  const seen = new Set();
-  return extractReferences(value).filter(({ type, value: reference }) => {
-    const key = `${type}:${reference.toLowerCase()}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  return stableUnique(extractReferences(value), ({ type, value: reference }) => `${type}:${reference.toLowerCase()}`);
 }
 
 export function referenceSummary(value = "") {
