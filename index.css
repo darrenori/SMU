@@ -116,6 +116,12 @@ h1 em { color: var(--red); font-weight: 400; }
 
 .trust-strip { padding: 22px clamp(24px, 6vw, 96px); display: flex; justify-content: space-between; gap: 25px; border-block: 1px solid var(--line); color: #5f6677; font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .trust-strip span::before { content: "•"; margin-right: 12px; color: var(--red); }
+.proof-strip { display: grid; grid-template-columns: repeat(4, 1fr); padding: 0 clamp(24px, 6vw, 96px); border-bottom: 1px solid var(--line); }
+.proof-strip div { padding: 40px 24px 40px 0; display: flex; flex-direction: column; gap: 7px; border-right: 1px solid var(--line); }
+.proof-strip div:not(:first-child) { padding-left: 24px; }
+.proof-strip div:last-child { border-right: 0; }
+.proof-strip strong { color: var(--red); font-family: Georgia, serif; font-size: 2.7rem; font-weight: 500; }
+.proof-strip span { color: var(--muted); font-size: .67rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .section { padding: clamp(85px, 10vw, 150px) clamp(24px, 6vw, 96px); }
 .section-heading { display: grid; grid-template-columns: .65fr 1fr .65fr; gap: 30px; align-items: end; }
 .section-heading .eyebrow { align-self: start; }
@@ -124,10 +130,19 @@ h1 em { color: var(--red); font-weight: 400; }
 .feature-grid { margin-top: 90px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
 .feature-grid article { min-height: 290px; padding: 35px 35px 25px 0; border-right: 1px solid var(--line); }
 .feature-grid article:not(:first-child) { padding-left: 35px; }
-.feature-grid article:last-child { border: 0; }
+.feature-grid article:nth-child(3n) { border-right: 0; }
+.feature-grid article:nth-child(n+4) { border-top: 1px solid var(--line); }
 .feature-number { color: var(--red); font-family: Georgia, serif; font-size: 1rem; }
 .feature-grid h3 { max-width: 300px; margin: 65px 0 18px; font-family: Georgia, serif; font-size: 1.65rem; font-weight: 500; line-height: 1.2; }
 .feature-grid p { color: var(--muted); line-height: 1.65; font-size: .92rem; }
+
+.privacy-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(50px, 8vw, 130px); border-top: 1px solid var(--line); }
+.privacy-section h2 { font-size: clamp(3rem, 5vw, 5.8rem); }
+.privacy-flow { border-top: 1px solid var(--line); }
+.privacy-flow article { padding: 27px 0; display: grid; grid-template-columns: 55px .75fr 1fr; gap: 24px; align-items: start; border-bottom: 1px solid var(--line); }
+.privacy-flow article > span { color: var(--red); font-family: Georgia, serif; }
+.privacy-flow h3 { margin: 0; font-family: Georgia, serif; font-size: 1.25rem; font-weight: 500; }
+.privacy-flow p { margin: 0; color: var(--muted); font-size: .85rem; line-height: 1.6; }
 
 .story { display: grid; grid-template-columns: 1.15fr .85fr; padding-block: 0; background: var(--navy); color: white; }
 .award-panel { padding: clamp(75px, 9vw, 135px) clamp(0px, 5vw, 80px) clamp(75px, 9vw, 135px) 0; border-right: 1px solid rgba(255,255,255,.14); }
@@ -154,6 +169,7 @@ blockquote footer { margin-top: 35px; color: #8e98b0; font-family: Inter, sans-s
   .section-heading { grid-template-columns: 1fr 1.5fr; }
   .section-heading > p:last-child { grid-column: 2; }
   .story { grid-template-columns: 1fr; }
+  .privacy-section { grid-template-columns: 1fr; }
   .award-panel { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.14); }
   blockquote { padding-left: 0; }
 }
@@ -170,12 +186,17 @@ blockquote footer { margin-top: 35px; color: #8e98b0; font-family: Inter, sans-s
   .document-placeholder { width: 80%; min-height: 385px; padding: 35px 25px; }
   .chat-card { width: 88%; right: 10px; }
   .trust-strip { flex-wrap: wrap; justify-content: flex-start; }
+  .proof-strip { grid-template-columns: repeat(2, 1fr); }
+  .proof-strip div:nth-child(2) { border-right: 0; }
+  .proof-strip div:nth-child(n+3) { border-top: 1px solid var(--line); }
   .section-heading, .feature-grid, .install { grid-template-columns: 1fr; }
   .section-heading > p:last-child { grid-column: auto; }
   .feature-grid { margin-top: 55px; }
   .feature-grid article, .feature-grid article:not(:first-child) { min-height: auto; padding: 30px 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .feature-grid h3 { margin-top: 35px; }
   .install { gap: 50px; }
+  .privacy-flow article { grid-template-columns: 38px 1fr; }
+  .privacy-flow p { grid-column: 2; }
   .site-footer { flex-direction: column; align-items: flex-start; }
 }
 

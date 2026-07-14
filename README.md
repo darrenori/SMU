@@ -1,83 +1,136 @@
 # IKEBOT
 
-IKEBOT is a Chrome extension prototype created for lawyers in Singapore. It places guided legal workflows inside the browser so practitioners can structure client intake, plan legal research, explain clauses in plain language and check the inputs needed for deadline calculations without leaving the page they are working on.
+IKEBOT is a private, deterministic Chrome extension for lawyers in Singapore. It structures routine legal work inside the browser without a model, account, API key or data upload.
 
-The project received a prize through Singapore Management University's Legal Innovation & Technology programme. It was built around a straightforward premise: useful legal technology should meet lawyers where they already work.
+The original project received a prize through Singapore Management University's Legal Innovation & Technology programme. Version 2.0 develops that hackathon prototype into a tested local workspace while preserving its core idea: useful legal technology should meet lawyers where they already work.
 
-> IKEBOT is a prototype and does not provide legal advice. Its output must be checked by a qualified practitioner against current, authoritative sources.
+> IKEBOT organises preparation. It does not provide legal advice, retrieve law or calculate an authoritative legal deadline. A qualified practitioner must verify every authority, date, conclusion and work product.
 
-## What is included
+## Capabilities
 
-- A responsive product site with an interactive IKEBOT demo
-- An installable Manifest V3 Chrome extension
-- Guided workflows for client intake, research planning, clause explanation and deadline checks
-- A zero-secret Vercel deployment configuration
-- Accessibility basics, responsive layouts and reduced-motion support
+### Nine guided workflows
 
-The current demo is intentionally deterministic. It demonstrates the interaction design without sending matter information to an external service or requiring an API key.
+- Client intake
+- Singapore legal research planning
+- Plain-language clause explanation
+- Deadline triage
+- Matter chronology
+- Case briefing
+- Document review
+- Client correspondence
+- Hearing preparation
 
-## Run locally
+### Offline matter tools
 
-Requirements: Node.js 20.19 or newer (or Node.js 22.12+).
+- Calendar-day and weekday planning-date calculator
+- Chronology parsing, sorting and CSV export
+- Line-by-line text comparison and draft readability inspection
+- Singapore neutral citation and statutory section extraction
+- Local detection and redaction of common email, phone and Singapore NRIC/FIN-like patterns
+- Five-point privacy and lawyer-review checklist
+- Searchable official Singapore legal starting points
+- Compact legal glossary
+- Local matter labels, persistent conversation history and text export
+- Light, dark and system themes
+- Keyboard shortcuts and reduced-motion support
+
+## Privacy architecture
+
+The extension requests **zero Chrome permissions** and makes **zero network requests**. It cannot read the active webpage. Matter details, conversation history, checklist progress and theme preference are stored only in the current browser profile and can be deleted through the interface.
+
+The product site also runs the deterministic workflow engine locally. See [PRIVACY.md](PRIVACY.md) and [docs/privacy-model.md](docs/privacy-model.md) for the complete data flow.
+
+## Run the product site
+
+Requirements: Node.js 22.12+ (the version is recorded in `.nvmrc`).
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite. To test the production build:
-
-```bash
-npm run build
-npm run preview
-```
+Open the local address printed by Vite.
 
 ## Install the Chrome extension
 
-1. Clone or download this repository.
-2. Open `chrome://extensions` in Google Chrome.
-3. Enable **Developer mode**.
-4. Select **Load unpacked**.
-5. Choose the repository root (the folder containing `manifest.json`).
-6. Pin IKEBOT from the Extensions menu and select its icon to open the assistant.
+### Directly from the repository
 
-After making extension changes, return to `chrome://extensions` and select the reload icon on the IKEBOT card.
+1. Open `chrome://extensions` in Google Chrome.
+2. Enable **Developer mode**.
+3. Select **Load unpacked**.
+4. Choose this repository's root folder.
+5. Pin IKEBOT and select its icon.
 
-## Deploy to Vercel
+### From a clean extension build
 
-### Vercel dashboard
+```bash
+npm run build:extension
+```
 
-1. Import this repository at [vercel.com/new](https://vercel.com/new).
-2. Vercel will detect the included Vite configuration.
-3. Deploy. No environment variables are required.
+Load the generated `extension-dist` directory through `chrome://extensions`. The build contains only the manifest, extension interface, shared runtime modules and required logo asset.
 
-### Vercel CLI
+## Verify everything
+
+```bash
+npm run release:check
+```
+
+This checks syntax, the zero-permission Manifest V3 configuration, local asset links and unit tests before building both the Vercel site and Chrome extension.
+
+Individual commands:
+
+```bash
+npm test
+npm run test:coverage
+npm run check
+npm run build
+npm run build:extension
+```
+
+## Deploy the site to Vercel
+
+Import the repository at [vercel.com/new](https://vercel.com/new). Vercel detects the included Vite and output-directory settings; no environment variables are required.
+
+Using the CLI:
 
 ```bash
 npm install -g vercel
 vercel
+vercel --prod
 ```
-
-Use `vercel --prod` when the preview is ready to become the production deployment.
 
 ## Project structure
 
 ```text
 .
-├── content/            # IKEBOT brand assets and original demonstration media
-├── extension/          # Chrome extension popup interface and behaviour
-├── app.js              # Interactive website demo
-├── index.css           # Product-site styling
-├── index.html          # Product site
-├── manifest.json       # Chrome Manifest V3 configuration
-├── package.json        # Local development and production build scripts
-└── vercel.json         # Vercel deployment configuration
+├── content/              # Original IKEBOT brand assets and demonstration media
+├── docs/                 # Architecture, privacy, workflow and release documentation
+├── extension/            # Chrome popup interface
+├── scripts/              # Verification and extension assembly
+├── src/
+│   ├── core/             # Deterministic engine, privacy, date and persistence logic
+│   ├── data/             # Workflows, glossary and authoritative source links
+│   └── ui/               # Shared browser UI utilities
+├── tests/                # Node unit tests for core behaviour
+├── index.html            # Public product site
+├── manifest.json         # Zero-permission Chrome Manifest V3 configuration
+└── vercel.json           # Vercel deployment and security headers
 ```
 
-## Privacy and production considerations
+## Commands inside IKEBOT
 
-This version stores no conversations and makes no network requests. Before connecting it to a live model or legal-data provider, add an authenticated server-side API, obtain the necessary data licences, define retention and deletion rules, protect legally privileged or confidential information, and complete security and professional-responsibility review.
+- `/help` lists commands
+- `/intake`, `/research` and `/deadline` open specific workflows
+- `/authorities` lists official research starting points
+- `/privacy` explains local data handling
+- `/clear` resets the conversation
+
+See [docs/keyboard-shortcuts.md](docs/keyboard-shortcuts.md) for keyboard controls.
 
 ## Recognition
 
-IKEBOT was recognised through Singapore Management University's Legal Innovation & Technology initiative, which promotes the thoughtful adoption of technology in legal practice. Learn more about [SMU Legal Innovation & Technology](https://law.smu.edu.sg/student-activities/student-clubs/smu-legal-innovation-and-technology-lit).
+IKEBOT was recognised through Singapore Management University's Legal Innovation & Technology initiative, which promotes the thoughtful adoption of technology in legal practice. Learn more from [SMU Legal Innovation & Technology](https://law.smu.edu.sg/student-activities/student-clubs/smu-legal-innovation-and-technology-lit).
+
+## Contributing and security
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing workflows or privacy boundaries. Report sensitive security concerns according to [SECURITY.md](SECURITY.md), never in a public issue containing confidential information.
