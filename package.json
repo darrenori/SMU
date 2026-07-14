@@ -1,12 +1,21 @@
 {
   "name": "ikebot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
   "description": "An award-winning legal workflow assistant for lawyers in Singapore.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "build:extension": "node scripts/build-extension.mjs",
+    "check": "npm run check:syntax && npm run check:manifest && npm run check:links",
+    "check:syntax": "node --check app.js && node --check extension/popup.js",
+    "check:manifest": "node scripts/verify-manifest.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "preview": "vite preview",
+    "release:check": "npm run check && npm test && npm run build && npm run build:extension"
   },
   "devDependencies": {
     "vite": "^8.1.4"
