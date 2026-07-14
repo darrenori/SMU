@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "IKEBOT",
+  "description": "Guided legal workflow assistance for lawyers in Singapore.",
+  "version": "1.0.0",
+  "action": {
+    "default_title": "Open IKEBOT",
+    "default_popup": "extension/popup.html"
+  },
+  "icons": {
+    "16": "content/2.png",
+    "32": "content/2.png",
+    "48": "content/2.png",
+    "128": "content/2.png"
+  }
+}

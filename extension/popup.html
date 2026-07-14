@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IKEBOT</title>
+    <link rel="stylesheet" href="popup.css" />
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <img src="../content/2.png" alt="IKEBOT" />
+      <div><strong>IKEBOT</strong><span><i></i> Ready to help</span></div>
+      <button id="reset" type="button" title="Start a new conversation" aria-label="Start a new conversation">↻</button>
+    </header>
+    <main id="messages" aria-live="polite">
+      <div class="message bot">
+        <span>IKEBOT</span>
+        <p>Good day. What can I help you work through?</p>
+      </div>
+      <div class="actions" id="actions">
+        <button type="button" data-prompt="Prepare a client intake checklist">Client intake checklist</button>
+        <button type="button" data-prompt="Help me plan Singapore legal research">Plan legal research</button>
+        <button type="button" data-prompt="Explain a clause in plain language">Explain a clause</button>
+        <button type="button" data-prompt="Help me check a legal deadline">Check a deadline</button>
+      </div>
+    </main>
+    <form id="form">
+      <label for="input">Ask IKEBOT</label>
+      <div>
+        <input id="input" type="text" maxlength="280" placeholder="Ask a workflow question…" autocomplete="off" autofocus />
+        <button type="submit" aria-label="Send message">↑</button>
+      </div>
+    </form>
+    <footer>Prototype guidance only. Not legal advice. Verify all authorities and dates.</footer>
+  </body>
+</html>

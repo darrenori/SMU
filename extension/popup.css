@@ -1,0 +1,29 @@
+:root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color: #0b1739; }
+* { box-sizing: border-box; }
+body { width: 390px; height: 580px; margin: 0; display: grid; grid-template-rows: 72px 1fr auto auto; background: #f4f0e8; overflow: hidden; }
+header { padding: 12px 16px; display: flex; align-items: center; gap: 10px; color: white; background: #0b1739; }
+header img { width: 47px; height: 47px; object-fit: contain; border-radius: 50%; background: white; }
+header div { display: flex; flex-direction: column; gap: 4px; }
+header strong { font-size: .9rem; letter-spacing: .08em; }
+header span { color: #bac3d7; font-size: .69rem; }
+header i { display: inline-block; width: 7px; height: 7px; margin-right: 5px; background: #4dcc8b; border-radius: 50%; }
+header button { width: 34px; height: 34px; margin-left: auto; border: 1px solid #46516e; border-radius: 50%; color: white; background: transparent; cursor: pointer; font-size: 1rem; }
+main { padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 11px; scroll-behavior: smooth; }
+.message { max-width: 86%; animation: rise .2s ease-out; }
+.message span { display: block; margin: 0 0 4px 4px; color: #7d8495; font-size: .57rem; font-weight: 800; letter-spacing: .1em; }
+.message p { margin: 0; padding: 12px 14px; white-space: pre-line; font-size: .8rem; line-height: 1.5; }
+.message.bot { align-self: flex-start; }
+.message.bot p { background: white; border: 1px solid #deddd8; border-radius: 3px 11px 11px 11px; }
+.message.user { align-self: flex-end; }
+.message.user p { color: white; background: #ee3847; border-radius: 11px 3px 11px 11px; }
+.actions { display: grid; gap: 7px; }
+.actions button { padding: 11px 12px; border: 1px solid #d4d1c9; border-radius: 4px; color: #0b1739; background: transparent; text-align: left; font-size: .75rem; font-weight: 700; cursor: pointer; }
+.actions button:hover, .actions button:focus { border-color: #ee3847; color: #ee3847; outline: 0; }
+form { padding: 10px 14px 8px; background: white; border-top: 1px solid #deddd8; }
+form label { display: block; margin-bottom: 6px; color: #747b8c; font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+form div { display: flex; gap: 8px; }
+form input { min-width: 0; flex: 1; padding: 10px 2px; border: 0; outline: 0; color: #0b1739; }
+form button { width: 38px; height: 38px; border: 0; border-radius: 50%; color: white; background: #ee3847; cursor: pointer; }
+footer { padding: 0 14px 9px; color: #858995; background: white; text-align: center; font-size: .55rem; }
+@keyframes rise { from { opacity: 0; transform: translateY(5px); } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; scroll-behavior: auto !important; } }
